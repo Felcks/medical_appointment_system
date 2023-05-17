@@ -1,0 +1,5 @@
+enum AppointmentRunning {
+  BEHIND_SCHEDULE,
+  ALMOST_BEHIND_SCHEDULE,
+  ON_SCHEDULE
+}
