@@ -1,11 +1,11 @@
 import 'package:medical_appointment_system/modules/appointment/domain/appointment_status.dart';
 import 'package:medical_appointment_system/modules/appointment/domain/appointment_type.dart';
-import 'package:medical_appointment_system/modules/clinic/receptionist.dart';
+import 'package:medical_appointment_system/modules/clinic/domain/receptionist.dart';
 import 'package:medical_appointment_system/modules/patient/patient.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
 
-import '../../clinic/doctor.dart';
+import '../../clinic/domain/doctor.dart';
 import '../../utils/interval.dart';
 import 'appointment_running.dart';
 

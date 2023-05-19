@@ -1,4 +1,4 @@
-import 'package:medical_appointment_system/modules/clinic/week_schedule.dart';
+import 'package:medical_appointment_system/modules/clinic/domain/week_schedule.dart';
 
 class Week {
   int selectedDay;

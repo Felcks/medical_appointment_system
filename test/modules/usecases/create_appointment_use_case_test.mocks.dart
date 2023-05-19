@@ -3,8 +3,9 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:medical_appointment_system/modules/clinic/doctor.dart' as _i3;
-import 'package:medical_appointment_system/modules/clinic/receptionist.dart'
+import 'package:medical_appointment_system/modules/clinic/domain/doctor.dart'
+    as _i3;
+import 'package:medical_appointment_system/modules/clinic/domain/receptionist.dart'
     as _i4;
 import 'package:medical_appointment_system/modules/patient/patient.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;

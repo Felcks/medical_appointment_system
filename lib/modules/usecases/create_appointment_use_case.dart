@@ -1,8 +1,8 @@
 import 'package:medical_appointment_system/modules/appointment/domain/appointment.dart';
 import 'package:medical_appointment_system/modules/appointment/appointment_status.dart';
 import 'package:medical_appointment_system/modules/appointment/domain/appointment_type.dart';
-import 'package:medical_appointment_system/modules/clinic/doctor.dart';
-import 'package:medical_appointment_system/modules/clinic/receptionist.dart';
+import 'package:medical_appointment_system/modules/clinic/domain/doctor.dart';
+import 'package:medical_appointment_system/modules/clinic/domain/receptionist.dart';
 import 'package:medical_appointment_system/modules/patient/patient.dart';
 import 'package:medical_appointment_system/modules/usecases/get_current_time_use_case.dart';
 

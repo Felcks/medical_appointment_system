@@ -1,4 +1,4 @@
-import 'package:medical_appointment_system/modules/clinic/receptionist.dart';
+import 'package:medical_appointment_system/modules/clinic/domain/receptionist.dart';
 
 import 'doctor.dart';
 

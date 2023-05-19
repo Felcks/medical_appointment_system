@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:medical_appointment_system/modules/appointment/appointment_module.dart';
-import 'package:medical_appointment_system/modules/clinic/presentation/clinic_module.dart';
+import 'package:medical_appointment_system/modules/clinic/clinic_module.dart';
 
 class AppModule extends Module {
   @override

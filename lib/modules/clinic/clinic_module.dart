@@ -1,7 +1,7 @@
 
 import 'package:flutter_modular/flutter_modular.dart';
 
-import 'clinic_page.dart';
+import 'presentation/pages/clinic_page.dart';
 
 class ClinicModule extends Module {
 

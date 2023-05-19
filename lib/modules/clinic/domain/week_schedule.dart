@@ -1,4 +1,4 @@
-import 'package:medical_appointment_system/modules/clinic/availability.dart';
+import 'package:medical_appointment_system/modules/clinic/domain/availability.dart';
 
 class WeekSchedule {
   final List<Availability> _openHours;

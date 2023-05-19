@@ -1,7 +1,7 @@
 import 'package:medical_appointment_system/modules/appointment/domain/appointment.dart';
 import 'package:medical_appointment_system/modules/appointment/domain/appointment_status.dart';
-import 'package:medical_appointment_system/modules/clinic/doctor.dart';
-import 'package:medical_appointment_system/modules/clinic/receptionist.dart';
+import 'package:medical_appointment_system/modules/clinic/domain/doctor.dart';
+import 'package:medical_appointment_system/modules/clinic/domain/receptionist.dart';
 import 'package:medical_appointment_system/modules/patient/patient.dart';
 
 import '../../../modules/appointment/domain/appointment_type.dart';

@@ -1,4 +1,4 @@
-import 'package:medical_appointment_system/modules/clinic/availability.dart';
+import 'package:medical_appointment_system/modules/clinic/domain/availability.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
