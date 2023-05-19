@@ -44,13 +44,15 @@ class _MyHomePageState extends State<MyHomePage> {
   Week week = Week(
       selectedDay: DateTime.now().weekday - 1,
       weekSchedule: GetWeekUseCase().invoke(DateTime.now()));
+  DateTime selectedDate = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
-    List<Appointment> scheduled = List.of(appointmentRepository.getAppointments(), growable: true);
-    List<Appointment> patientReady = List.empty(growable: true);
-    List<Appointment> inProgress = List.empty(growable: true);
-    List<Appointment> done = List.empty(growable: true);
+    List<Appointment> allAppointments = List.of(appointmentRepository.getAppointmentsAtDate(selectedDate), growable: true);
+    List<Appointment> scheduled = allAppointments.where((element) => element.status == AppointmentStatus.SCHEDULED).toList();
+    List<Appointment> patientReady = allAppointments.where((element) => element.status == AppointmentStatus.PATIENT_READY).toList();
+    List<Appointment> inProgress = allAppointments.where((element) => element.status == AppointmentStatus.IN_PROGRESS).toList();
+    List<Appointment> done = allAppointments.where((element) => element.status == AppointmentStatus.DONE).toList();
 
     return Scaffold(
       bottomNavigationBar: (MediaQuery.of(context).size.width < 640)
@@ -120,6 +122,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             setState(
                               () {
                                 week = Week(selectedDay: index, weekSchedule: week.weekSchedule);
+                                selectedDate = week.weekSchedule.getDay(index).start;
                               },
                             );
                           },
@@ -149,7 +152,9 @@ class _MyHomePageState extends State<MyHomePage> {
                             );
                           },
                           onAccept: (item) {
-                            scheduled.add(item.copyWith(status: AppointmentStatus.SCHEDULED));
+                            setState(() {
+                              appointmentRepository.changeAppointmentStatus(item, AppointmentStatus.SCHEDULED);
+                            });
                           },
                         ),
                         TableCell(
@@ -162,7 +167,10 @@ class _MyHomePageState extends State<MyHomePage> {
                               );
                             },
                             onAccept: (item) {
-                              patientReady.add(item.copyWith(status: AppointmentStatus.PATIENT_READY));
+                              setState(() {
+                                appointmentRepository.changeAppointmentStatus(item, AppointmentStatus.PATIENT_READY);
+                              });
+                              //patientReady.add(item.copyWith(status: AppointmentStatus.PATIENT_READY));
                             },
                           ),
                         ),
@@ -176,7 +184,9 @@ class _MyHomePageState extends State<MyHomePage> {
                               );
                             },
                             onAccept: (item) {
-                              inProgress.add(item.copyWith(status: AppointmentStatus.IN_PROGRESS));
+                              setState(() {
+                                appointmentRepository.changeAppointmentStatus(item, AppointmentStatus.IN_PROGRESS);
+                              });
                             },
                           ),
                         ),
@@ -190,7 +200,9 @@ class _MyHomePageState extends State<MyHomePage> {
                               );
                             },
                             onAccept: (item) {
-                              done.add(item.copyWith(status: AppointmentStatus.DONE));
+                              setState(() {
+                                appointmentRepository.changeAppointmentStatus(item, AppointmentStatus.DONE);
+                              });
                             },
                           ),
                         ),

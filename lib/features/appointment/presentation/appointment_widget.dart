@@ -20,7 +20,7 @@ class _AppointmentWidgetState extends State<AppointmentWidget> {
     Appointment appointment = widget.appointment;
 
     AppointmentRunning runningStatus =
-        appointment.getBoardStatus(DateTime(2000, DateTime.january, 20, 8, 10));
+        appointment.getBoardStatus(DateTime(2000, DateTime.january, 20, 9, 0));
 
 
     return Card(

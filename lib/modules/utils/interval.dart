@@ -18,4 +18,10 @@ class Interval with _$Interval {
   Duration getDuration() {
     return end.difference(start);
   }
+
+  bool isInTheSameDay(DateTime date) {
+    return start.day == date.day &&
+    start.month == date.month &&
+    start.year == date.year;
+  }
 }
