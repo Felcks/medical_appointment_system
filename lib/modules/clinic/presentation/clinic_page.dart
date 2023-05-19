@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 class ClinicPage extends StatefulWidget {
   final String title;
@@ -11,10 +12,70 @@ class ClinicPage extends StatefulWidget {
 }
 
 class _ClinicPageState extends State<ClinicPage> {
+  int _selectedIndex = 1;
+
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Text("CLINIC"),
+    return Scaffold(
+      bottomNavigationBar: (MediaQuery.of(context).size.width < 640)
+          ? BottomNavigationBar(
+          currentIndex: _selectedIndex,
+          unselectedItemColor: Colors.grey,
+          selectedItemColor: Colors.indigoAccent,
+          // called when one tab is selected
+          onTap: (int index) {
+            setState(() {
+              _selectedIndex = index;
+            });
+          },
+          // bottom tab items
+          items: const [
+            BottomNavigationBarItem(
+                icon: Icon(Icons.home), label: 'Consultas'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.local_hospital), label: 'Clínica'),
+          ])
+          : null,
+      body: SafeArea(
+        child: Row(
+          children: [
+            if (MediaQuery.of(context).size.width >= 640)
+              NavigationRail(
+                labelType: NavigationRailLabelType.all,
+                groupAlignment: 0,
+                elevation: 10,
+                minExtendedWidth: 300,
+                minWidth: 100,
+                selectedIndex: _selectedIndex,
+                onDestinationSelected: (int index) {
+                  setState(() {
+                    _selectedIndex = index;
+                    if (index == 0)
+                      Modular.to.pushNamed('/');
+                    else
+                      Modular.to.pushNamed('/clinic');
+                  });
+                },
+                destinations: const [
+                  NavigationRailDestination(
+                      icon: Icon(Icons.home), label: Text("Consultas")),
+                  NavigationRailDestination(
+                      icon: Icon(Icons.local_hospital), label: Text("Clínica")),
+                  NavigationRailDestination(
+                      icon: Icon(Icons.person_pin_rounded),
+                      label: Text("Doutores")),
+                  NavigationRailDestination(
+                      icon: Icon(Icons.person), label: Text("Pacientes")),
+                ],
+              ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [],
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:medical_appointment_system/main.dart';
 import 'package:medical_appointment_system/modules/appointment/presentation/appointment_module.dart';
 import 'package:medical_appointment_system/modules/clinic/presentation/clinic_module.dart';
 
@@ -11,14 +10,14 @@ class AppModule extends Module {
 
   @override
   List<ModularRoute> get routes => [
-    ChildRoute('/', child: (context, args) => const MyHomePage(title: "Sistema de Consultas")),
-    ModuleRoute('/clinic', module: ClinicModule()),
-    ModuleRoute('/appointment', module: AppointmentModule()),
-    // ModuleRoute('/', module: AppointmentModule());
+    ModuleRoute('/', module: AppointmentModule(), transition: TransitionType.noTransition),
+    ModuleRoute('/clinic', module: ClinicModule(), transition: TransitionType.noTransition),
   ];
 }
 
-class AppWindget extends StatelessWidget {
+class AppWidget extends StatelessWidget {
+  const AppWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
