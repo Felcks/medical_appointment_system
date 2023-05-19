@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:medical_appointment_system/app_module.dart';
 import 'package:medical_appointment_system/features/appointment/domain/appointment_repository.dart';
 import 'package:medical_appointment_system/features/appointment/presentation/appointment_board_widget.dart';
 import 'package:medical_appointment_system/features/appointment/presentation/day_widget.dart';
@@ -7,9 +8,11 @@ import 'package:medical_appointment_system/features/appointment/presentation/wee
 import 'package:medical_appointment_system/modules/appointment/appointment.dart';
 import 'package:medical_appointment_system/modules/appointment/appointment_status.dart';
 import 'package:medical_appointment_system/modules/usecases/get_week_use_case.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 void main() {
-  runApp(const MyApp());
+  // runApp(const MyApp());
+  runApp(ModularApp(module: AppModule(), child: AppWindget(),));
 }
 
 class MyApp extends StatelessWidget {
@@ -48,11 +51,21 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    List<Appointment> allAppointments = List.of(appointmentRepository.getAppointmentsAtDate(selectedDate), growable: true);
-    List<Appointment> scheduled = allAppointments.where((element) => element.status == AppointmentStatus.SCHEDULED).toList();
-    List<Appointment> patientReady = allAppointments.where((element) => element.status == AppointmentStatus.PATIENT_READY).toList();
-    List<Appointment> inProgress = allAppointments.where((element) => element.status == AppointmentStatus.IN_PROGRESS).toList();
-    List<Appointment> done = allAppointments.where((element) => element.status == AppointmentStatus.DONE).toList();
+    List<Appointment> allAppointments = List.of(
+        appointmentRepository.getAppointmentsAtDate(selectedDate),
+        growable: true);
+    List<Appointment> scheduled = allAppointments
+        .where((element) => element.status == AppointmentStatus.SCHEDULED)
+        .toList();
+    List<Appointment> patientReady = allAppointments
+        .where((element) => element.status == AppointmentStatus.PATIENT_READY)
+        .toList();
+    List<Appointment> inProgress = allAppointments
+        .where((element) => element.status == AppointmentStatus.IN_PROGRESS)
+        .toList();
+    List<Appointment> done = allAppointments
+        .where((element) => element.status == AppointmentStatus.DONE)
+        .toList();
 
     return Scaffold(
       bottomNavigationBar: (MediaQuery.of(context).size.width < 640)
@@ -68,8 +81,10 @@ class _MyHomePageState extends State<MyHomePage> {
               },
               // bottom tab items
               items: const [
-                  BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Consultas'),
-                  BottomNavigationBarItem(icon: Icon(Icons.local_hospital), label: 'Clínica'),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.home), label: 'Consultas'),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.local_hospital), label: 'Clínica'),
                 ])
           : null,
       body: SafeArea(
@@ -86,12 +101,21 @@ class _MyHomePageState extends State<MyHomePage> {
                 onDestinationSelected: (int index) {
                   setState(() {
                     _selectedIndex = index;
+                    if(index == 0)
+                      Modular.to.pushNamed('/appointment');
+                    else
+                      Modular.to.pushNamed('/clinic');
                   });
                 },
                 destinations: const [
-                  NavigationRailDestination(icon: Icon(Icons.home), label: Text("Consultas")),
                   NavigationRailDestination(
-                      icon: Icon(Icons.local_hospital), label: Text("Clínica"))
+                      icon: Icon(Icons.home), label: Text("Consultas")),
+                  NavigationRailDestination(
+                      icon: Icon(Icons.local_hospital), label: Text("Clínica")),
+                  NavigationRailDestination(
+                      icon: Icon(Icons.person_pin_rounded), label: Text("Doutores")),
+                  NavigationRailDestination(
+                      icon: Icon(Icons.person), label: Text("Pacientes")),
                 ],
               ),
             Column(
@@ -121,8 +145,11 @@ class _MyHomePageState extends State<MyHomePage> {
                           onPressed: () {
                             setState(
                               () {
-                                week = Week(selectedDay: index, weekSchedule: week.weekSchedule);
-                                selectedDate = week.weekSchedule.getDay(index).start;
+                                week = Week(
+                                    selectedDay: index,
+                                    weekSchedule: week.weekSchedule);
+                                selectedDate =
+                                    week.weekSchedule.getDay(index).start;
                               },
                             );
                           },
@@ -153,7 +180,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           },
                           onAccept: (item) {
                             setState(() {
-                              appointmentRepository.changeAppointmentStatus(item, AppointmentStatus.SCHEDULED);
+                              appointmentRepository.changeAppointmentStatus(
+                                  item, AppointmentStatus.SCHEDULED);
                             });
                           },
                         ),
@@ -168,7 +196,8 @@ class _MyHomePageState extends State<MyHomePage> {
                             },
                             onAccept: (item) {
                               setState(() {
-                                appointmentRepository.changeAppointmentStatus(item, AppointmentStatus.PATIENT_READY);
+                                appointmentRepository.changeAppointmentStatus(
+                                    item, AppointmentStatus.PATIENT_READY);
                               });
                               //patientReady.add(item.copyWith(status: AppointmentStatus.PATIENT_READY));
                             },
@@ -185,7 +214,8 @@ class _MyHomePageState extends State<MyHomePage> {
                             },
                             onAccept: (item) {
                               setState(() {
-                                appointmentRepository.changeAppointmentStatus(item, AppointmentStatus.IN_PROGRESS);
+                                appointmentRepository.changeAppointmentStatus(
+                                    item, AppointmentStatus.IN_PROGRESS);
                               });
                             },
                           ),
@@ -201,7 +231,8 @@ class _MyHomePageState extends State<MyHomePage> {
                             },
                             onAccept: (item) {
                               setState(() {
-                                appointmentRepository.changeAppointmentStatus(item, AppointmentStatus.DONE);
+                                appointmentRepository.changeAppointmentStatus(
+                                    item, AppointmentStatus.DONE);
                               });
                             },
                           ),

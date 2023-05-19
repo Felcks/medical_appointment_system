@@ -51,6 +51,7 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
   freezed: ^2.3.4
+  flutter_modular: ^5.0.3
   json_serializable: ^6.6.2
 
 # For information on the generic Dart part of this file, see the
