@@ -1,8 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:medical_appointment_system/modules/appointment/appointment.dart';
-import 'package:medical_appointment_system/modules/appointment/appointment_type.dart';
+import 'package:medical_appointment_system/modules/appointment/domain/appointment.dart';
+import 'package:medical_appointment_system/modules/appointment/domain/appointment_type.dart';
 import 'package:medical_appointment_system/modules/clinic/doctor.dart';
 import 'package:medical_appointment_system/modules/clinic/receptionist.dart';
 import 'package:medical_appointment_system/modules/patient/patient.dart';

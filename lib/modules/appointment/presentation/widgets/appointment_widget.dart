@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
-import 'package:medical_appointment_system/modules/appointment/appointment.dart';
-import 'package:medical_appointment_system/modules/appointment/appointment_running.dart';
-import 'package:medical_appointment_system/modules/appointment/appointment_type.dart';
+import 'package:medical_appointment_system/modules/appointment/domain/appointment.dart';
+import 'package:medical_appointment_system/modules/appointment/domain/appointment_type.dart';
+
+import '../../domain/appointment_running.dart';
 
 class AppointmentWidget extends StatefulWidget {
   final Appointment appointment;

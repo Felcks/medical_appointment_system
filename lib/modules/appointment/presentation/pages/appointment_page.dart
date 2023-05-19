@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
-import '../../../features/appointment/domain/appointment_repository.dart';
-import '../../../features/appointment/presentation/appointment_board_widget.dart';
-import '../../../features/appointment/presentation/day_widget.dart';
-import '../../../features/appointment/presentation/week.dart';
-import '../../usecases/get_week_use_case.dart';
-import '../appointment.dart';
-import '../appointment_status.dart';
+import '../../../../features/appointment/domain/appointment_repository.dart';
+import '../widgets/appointment_board_widget.dart';
+import '../widgets/day_widget.dart';
+import '../week.dart';
+import '../../../usecases/get_week_use_case.dart';
+import '../../domain/appointment.dart';
+import '../../domain/appointment_status.dart';
 
 class AppointmentPage extends StatefulWidget {
   final String title;

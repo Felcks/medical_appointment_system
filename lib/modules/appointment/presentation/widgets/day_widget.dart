@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
-import 'package:medical_appointment_system/features/appointment/presentation/week.dart';
+import 'package:medical_appointment_system/modules/appointment/presentation/week.dart';
 
 class DayWidget extends StatefulWidget {
   Week week;

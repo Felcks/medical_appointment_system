@@ -6,6 +6,6 @@ void main() {
   // runApp(const MyApp());
   runApp(ModularApp(
     module: AppModule(),
-    child: AppWidget(),
+    child: const AppWidget(),
   ));
 }

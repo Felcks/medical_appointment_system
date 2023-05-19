@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:medical_appointment_system/modules/appointment/appointment.dart';
+import 'package:medical_appointment_system/modules/appointment/domain/appointment.dart';
 
 import 'appointment_widget.dart';
 
