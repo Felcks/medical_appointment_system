@@ -49,25 +49,32 @@ class _AppointmentPageState extends State<AppointmentPage> {
     return Scaffold(
       bottomNavigationBar: (MediaQuery.of(context).size.width < 640)
           ? BottomNavigationBar(
-          currentIndex: _selectedIndex,
-          unselectedItemColor: Colors.grey,
-          selectedItemColor: Colors.indigoAccent,
-          // called when one tab is selected
-          onTap: (int index) {
-            setState(() {
-              _selectedIndex = index;
-            });
-          },
-          // bottom tab items
-          items: const [
-            BottomNavigationBarItem(
-                icon: Icon(Icons.home), label: 'Consultas'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.local_hospital), label: 'Clínica'),
-          ])
+              currentIndex: _selectedIndex,
+              unselectedItemColor: Colors.grey,
+              selectedItemColor: Colors.indigoAccent,
+              // called when one tab is selected
+              onTap: (int index) {
+                setState(() {
+                  _selectedIndex = index;
+                });
+              },
+              // bottom tab items
+              items: const [
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.home), label: 'Consultas'),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.local_hospital), label: 'Clínica'),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.person_pin_rounded),
+                    label: "Doutores",
+                  ),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.person), label: "Pacientes")
+                ])
           : null,
       body: SafeArea(
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             if (MediaQuery.of(context).size.width >= 640)
               NavigationRail(
@@ -80,7 +87,7 @@ class _AppointmentPageState extends State<AppointmentPage> {
                 onDestinationSelected: (int index) {
                   setState(() {
                     _selectedIndex = index;
-                    if(index == 0)
+                    if (index == 0)
                       Modular.to.pushNamed('/');
                     else
                       Modular.to.pushNamed('/clinic');
@@ -92,139 +99,243 @@ class _AppointmentPageState extends State<AppointmentPage> {
                   NavigationRailDestination(
                       icon: Icon(Icons.local_hospital), label: Text("Clínica")),
                   NavigationRailDestination(
-                      icon: Icon(Icons.person_pin_rounded), label: Text("Doutores")),
+                      icon: Icon(Icons.person_pin_rounded),
+                      label: Text("Doutores")),
                   NavigationRailDestination(
                       icon: Icon(Icons.person), label: Text("Pacientes")),
                 ],
               ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Text(
-                    "Bem vindo, Rafaela",
-                    style: TextStyle(fontSize: 24),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.all(16),
+                    child: Text(
+                      "Bem vindo, Rafaela",
+                      style:
+                          TextStyle(fontSize: 24, fontStyle: FontStyle.italic),
+                    ),
                   ),
-                ),
-                SizedBox(
-                  width: 1000,
-                  height: 100,
-                  child: ListView.builder(
-                    itemCount: week.weekSchedule.length(),
-                    scrollDirection: Axis.horizontal,
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4),
-                        child: DayWidget(
-                          week: week,
-                          currentIndex: index,
-                          onPressed: () {
-                            setState(
+                  SizedBox(
+                    height: 100,
+                    child: Center(
+                      child: ListView.builder(
+                        itemCount: week.weekSchedule.length(),
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 4),
+                            child: DayWidget(
+                              week: week,
+                              currentIndex: index,
+                              onPressed: () {
+                                setState(
                                   () {
-                                week = Week(
-                                    selectedDay: index,
-                                    weekSchedule: week.weekSchedule);
-                                selectedDate =
-                                    week.weekSchedule.getDay(index).start;
+                                    week = Week(
+                                        selectedDay: index,
+                                        weekSchedule: week.weekSchedule);
+                                    selectedDate =
+                                        week.weekSchedule.getDay(index).start;
+                                  },
+                                );
                               },
-                            );
-                          },
-                        ),
-                      );
-                    },
+                            ),
+                          );
+                        },
+                      ),
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: SizedBox(
-                    height: 400,
-                    width: 1000,
-                    child: Table(children: [
-                      TableRow(children: [
-                        DragTarget<Appointment>(
-                          builder: (context, candidateItems, rejectedItems) {
-                            return SizedBox(
-                              height: 500,
-                              child: AppointmentBoardWidget(
-                                title: "Agendada",
-                                appointments: scheduled,
-                              ),
-                            );
-                          },
-                          onAccept: (item) {
-                            setState(() {
-                              appointmentRepository.changeAppointmentStatus(
-                                  item, AppointmentStatus.SCHEDULED);
-                            });
-                          },
-                        ),
-                        TableCell(
-                          verticalAlignment: TableCellVerticalAlignment.fill,
-                          child: DragTarget<Appointment>(
-                            builder: (context, candidateItems, rejectedItems) {
-                              return AppointmentBoardWidget(
-                                title: "Paciente Pronto",
-                                appointments: patientReady,
-                              );
-                            },
-                            onAccept: (item) {
-                              setState(() {
-                                appointmentRepository.changeAppointmentStatus(
-                                    item, AppointmentStatus.PATIENT_READY);
-                              });
-                              //patientReady.add(item.copyWith(status: AppointmentStatus.PATIENT_READY));
-                            },
-                          ),
-                        ),
-                        TableCell(
-                          verticalAlignment: TableCellVerticalAlignment.fill,
-                          child: DragTarget<Appointment>(
-                            builder: (context, candidateItems, rejectedItems) {
-                              return AppointmentBoardWidget(
-                                title: "Em Andamento",
-                                appointments: inProgress,
-                              );
-                            },
-                            onAccept: (item) {
-                              setState(() {
-                                appointmentRepository.changeAppointmentStatus(
-                                    item, AppointmentStatus.IN_PROGRESS);
-                              });
-                            },
-                          ),
-                        ),
-                        TableCell(
-                          verticalAlignment: TableCellVerticalAlignment.fill,
-                          child: DragTarget<Appointment>(
-                            builder: (context, candidateItems, rejectedItems) {
-                              return AppointmentBoardWidget(
-                                title: "Concluída",
-                                appointments: done,
-                              );
-                            },
-                            onAccept: (item) {
-                              setState(() {
-                                appointmentRepository.changeAppointmentStatus(
-                                    item, AppointmentStatus.DONE);
-                              });
-                            },
-                          ),
-                        ),
-                      ]),
-                    ]),
+                  const SizedBox(
+                    height: 8,
                   ),
-                ),
-              ],
+                  //(MediaQuery.of(context).size.width / View.of(context).devicePixelRatio >= 640)
+                  Expanded(
+                    child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      child: (MediaQuery.of(context).size.width /
+                                  View.of(context).devicePixelRatio >=
+                              640)
+                          ? Row(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: _boardLayout(
+                                  scheduled, patientReady, inProgress, done))
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: _boardLayout(
+                                  scheduled, patientReady, inProgress, done),
+                            ),
+                      // Padding(
+                      //   padding: const EdgeInsets.symmetric(horizontal: 16),
+                      //   child: SizedBox(
+                      //     height: 400,
+                      //     width: 1000,
+                      //     child: Table(children: [
+                      //       TableRow(children: [
+                      //         DragTarget<Appointment>(
+                      //           builder: (context, candidateItems, rejectedItems) {
+                      //             return SizedBox(
+                      //               height: 500,
+                      //               child: AppointmentBoardWidget(
+                      //                 title: "Agendada",
+                      //                 appointments: scheduled,
+                      //               ),
+                      //             );
+                      //           },
+                      //           onAccept: (item) {
+                      //             setState(() {
+                      //               appointmentRepository.changeAppointmentStatus(
+                      //                   item, AppointmentStatus.SCHEDULED);
+                      //             });
+                      //           },
+                      //         ),
+                      //         TableCell(
+                      //           verticalAlignment: TableCellVerticalAlignment.fill,
+                      //           child: DragTarget<Appointment>(
+                      //             builder: (context, candidateItems, rejectedItems) {
+                      //               return AppointmentBoardWidget(
+                      //                 title: "Paciente Pronto",
+                      //                 appointments: patientReady,
+                      //               );
+                      //             },
+                      //             onAccept: (item) {
+                      //               setState(() {
+                      //                 appointmentRepository.changeAppointmentStatus(
+                      //                     item, AppointmentStatus.PATIENT_READY);
+                      //               });
+                      //               //patientReady.add(item.copyWith(status: AppointmentStatus.PATIENT_READY));
+                      //             },
+                      //           ),
+                      //         ),
+                      //         TableCell(
+                      //           verticalAlignment: TableCellVerticalAlignment.fill,
+                      //           child: DragTarget<Appointment>(
+                      //             builder: (context, candidateItems, rejectedItems) {
+                      //               return AppointmentBoardWidget(
+                      //                 title: "Em Andamento",
+                      //                 appointments: inProgress,
+                      //               );
+                      //             },
+                      //             onAccept: (item) {
+                      //               setState(() {
+                      //                 appointmentRepository.changeAppointmentStatus(
+                      //                     item, AppointmentStatus.IN_PROGRESS);
+                      //               });
+                      //             },
+                      //           ),
+                      //         ),
+                      //         TableCell(
+                      //           verticalAlignment: TableCellVerticalAlignment.fill,
+                      //           child: DragTarget<Appointment>(
+                      //             builder: (context, candidateItems, rejectedItems) {
+                      //               return AppointmentBoardWidget(
+                      //                 title: "Concluída",
+                      //                 appointments: done,
+                      //               );
+                      //             },
+                      //             onAccept: (item) {
+                      //               setState(() {
+                      //                 appointmentRepository.changeAppointmentStatus(
+                      //                     item, AppointmentStatus.DONE);
+                      //               });
+                      //             },
+                      //           ),
+                      //         ),
+                      //       ]),
+                      //     ]),
+                      //   ),
+                      // ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
       ),
     );
+  }
+
+  List<Widget> _boardLayout(
+      List<Appointment> scheduled,
+      List<Appointment> patientReady,
+      List<Appointment> inProgress,
+      List<Appointment> done) {
+    return [
+      Expanded(
+        child: DragTarget<Appointment>(
+          builder: (context, candidateItems, rejectedItems) {
+            return AppointmentBoardWidget(
+              title: "Agendada",
+              appointments: scheduled,
+            );
+            // return Card(child: Text("oi"),);
+          },
+          onAccept: (item) {
+            setState(() {
+              appointmentRepository.changeAppointmentStatus(
+                  item, AppointmentStatus.SCHEDULED);
+            });
+          },
+        ),
+      ),
+      Expanded(
+        child: DragTarget<Appointment>(
+          builder: (context, candidateItems, rejectedItems) {
+            return AppointmentBoardWidget(
+              title: "Paciente Pronto",
+              appointments: patientReady,
+            );
+            // return Card(child: Text("oi"),);
+          },
+          onAccept: (item) {
+            setState(() {
+              appointmentRepository.changeAppointmentStatus(
+                  item, AppointmentStatus.PATIENT_READY);
+            });
+          },
+        ),
+      ),
+      Expanded(
+        child: DragTarget<Appointment>(
+          builder: (context, candidateItems, rejectedItems) {
+            return AppointmentBoardWidget(
+              title: "Em andamento",
+              appointments: inProgress,
+            );
+            // return Card(child: Text("oi"),);
+          },
+          onAccept: (item) {
+            setState(() {
+              appointmentRepository.changeAppointmentStatus(
+                  item, AppointmentStatus.IN_PROGRESS);
+            });
+          },
+        ),
+      ),
+      Expanded(
+        child: DragTarget<Appointment>(
+          builder: (context, candidateItems, rejectedItems) {
+            return AppointmentBoardWidget(
+              title: "Concluído",
+              appointments: done,
+            );
+            // return Card(child: Text("oi"),);
+          },
+          onAccept: (item) {
+            setState(() {
+              appointmentRepository.changeAppointmentStatus(
+                  item, AppointmentStatus.DONE);
+            });
+          },
+        ),
+      ),
+    ];
   }
 }
