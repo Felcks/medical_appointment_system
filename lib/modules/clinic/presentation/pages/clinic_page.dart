@@ -19,22 +19,22 @@ class _ClinicPageState extends State<ClinicPage> {
     return Scaffold(
       bottomNavigationBar: (MediaQuery.of(context).size.width < 640)
           ? BottomNavigationBar(
-          currentIndex: _selectedIndex,
-          unselectedItemColor: Colors.grey,
-          selectedItemColor: Colors.indigoAccent,
-          // called when one tab is selected
-          onTap: (int index) {
-            setState(() {
-              _selectedIndex = index;
-            });
-          },
-          // bottom tab items
-          items: const [
-            BottomNavigationBarItem(
-                icon: Icon(Icons.home), label: 'Consultas'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.local_hospital), label: 'Clínica'),
-          ])
+              currentIndex: _selectedIndex,
+              unselectedItemColor: Colors.grey,
+              selectedItemColor: Colors.indigoAccent,
+              // called when one tab is selected
+              onTap: (int index) {
+                setState(() {
+                  _selectedIndex = index;
+                });
+              },
+              // bottom tab items
+              items: const [
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.home), label: 'Consultas'),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.local_hospital), label: 'Clínica'),
+                ])
           : null,
       body: SafeArea(
         child: Row(
@@ -68,11 +68,57 @@ class _ClinicPageState extends State<ClinicPage> {
                       icon: Icon(Icons.person), label: Text("Pacientes")),
                 ],
               ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [],
-            ),
+            const Expanded(
+              child: Padding(
+                padding: EdgeInsets.all(16),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: Card(
+                        child: Column(
+                          children: [
+                            Text("Funcionários")
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 16,),
+                    Expanded(
+                      flex: 2,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            flex: 4,
+                            child: Card(
+                              child: Column(
+                                children: [
+                                  Text("Configurações")
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 16,),
+                          Expanded(
+                            flex: 6,
+                            child: Card(
+                              child: Column(
+                                children: [
+                                  Text("Horários")
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )
           ],
         ),
       ),
